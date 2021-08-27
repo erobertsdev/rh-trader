@@ -1,5 +1,6 @@
 import config
 import trade_strat
+from playsound import playsound
 
 import robin_stocks as rh
 import datetime as dt
@@ -41,6 +42,15 @@ def open_market():
     return(market)
 
 
+def get_cash():
+    rh_cash = rh.robinhood.account.build_user_profile()
+    crypto_buying_power = rh.robinhood.profiles.load_account_profile(
+        info='crypto_buying_power')
+    cash = float(rh_cash['cash'])
+    equity = float(rh_cash['equity'])
+    return(cash, equity)
+
+
 if __name__ == "__main__":
     login(days=1)
 
@@ -49,14 +59,23 @@ if __name__ == "__main__":
     ts = trade_strat.trader(stocks)
 
     while open_market():
-        # prices = rh.robinhood.crypto.get_crypto_quote_from_id(stocks)
+
         prices = rh.robinhood.crypto.get_crypto_quote('ETH')
         data = ts.get_historical_prices()
-        # print(prices)
         ask_price = prices['ask_price']
-        print('Historical:', data)
-        print('Current Ask Price:', float(ask_price))
 
-        time.sleep(30)
+        sma = ts.get_sma('ETH', data, window=12)
+        p_sma = ts.get_price_sma(float(ask_price), sma)
+        trade = ts.trade_option(p_sma)
+        print('Price:', float(ask_price))
+        print('sma: ', sma)
+        print('p_sma: ', p_sma)
+        print('CHOICE: ', trade)
+        print('Balance: ', get_cash()[0])
+        
+        if trade == 'BUY':
+            playsound('./ring01.wav')
+
+        time.sleep(60)
 
     logout()

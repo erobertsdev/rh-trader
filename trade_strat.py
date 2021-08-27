@@ -42,3 +42,25 @@ class trader():
         df_price = df_price.set_index('begins_at')
 
         return(df_price)
+
+    def get_sma(self, stock, df_prices, window=12):
+        sma = df_prices.rolling(window=window, min_periods=window).mean()
+        sma = round(float(sma[stock].iloc[-1]), 4)
+        return(sma)
+
+    def get_price_sma(self, price, sma):
+        # under 1 is a buy, over 1 is a sell
+        price_sma = round(price/sma, 4)
+        return(price_sma)
+
+    def trade_option(self, p_sma):
+
+        i1 = "BUY" if p_sma < 0.98 else "SELL" if p_sma > 1.006 else "NONE"
+        if i1 == "BUY":
+            trade = "BUY"
+        elif i1 == "SELL":
+            trade = "SELL"
+        else:
+            trade = "HOLD"
+
+        return(trade)
