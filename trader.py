@@ -51,6 +51,8 @@ def get_cash():
     return(cash, equity)
 
 
+have_bought = False
+
 if __name__ == "__main__":
     login(days=1)
 
@@ -73,14 +75,16 @@ if __name__ == "__main__":
         print('CHOICE: ', trade)
         print('Balance: ', get_cash()[0])
         
-        if trade == 'BUY':
+        if trade == 'BUY' and have_bought == False:
             print("BOUGHT AT: ", float(ask_price))
             bought_price = float(ask_price)
-        elif trade == 'SELL':
+            have_bought = True
+        elif trade == 'SELL' and have_bought == True:
             print('SOLD AT: ', float(ask_price))
             sold_price = float(ask_price)
             profit = sold_price - bought_price
             print('PROFIT: ', profit * 3)
+            have_bought = False
 
         time.sleep(60)
 
