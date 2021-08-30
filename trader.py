@@ -74,7 +74,13 @@ if __name__ == "__main__":
         print('Balance: ', get_cash()[0])
         
         if trade == 'BUY':
-            playsound('./ring01.wav')
+            print("BOUGHT AT: ", float(ask_price))
+            bought_price = float(ask_price)
+        elif trade == 'SELL':
+            print('SOLD AT: ', float(ask_price))
+            sold_price = float(ask_price)
+            profit = sold_price - bought_price
+            print('PROFIT: ', profit * 3)
 
         time.sleep(60)
 
