@@ -98,6 +98,6 @@ if __name__ == "__main__":
             print('PROFIT: ', profit * owned_qty)
             have_bought = False
 
-        time.sleep(60)
+        time.sleep(15)
 
     logout()
