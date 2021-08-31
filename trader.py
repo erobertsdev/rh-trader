@@ -63,41 +63,45 @@ if __name__ == "__main__":
 
     while open_market():
 
-        prices = rh.robinhood.crypto.get_crypto_quote('ETH')
-        data = ts.get_historical_prices()
-        ask_price = float(prices['ask_price'])
+        try:
+            prices = rh.robinhood.crypto.get_crypto_quote('ETH')
+            data = ts.get_historical_prices()
+            ask_price = float(prices['ask_price'])
 
-        sma = ts.get_sma('ETH', data, window=12)
-        p_sma = ts.get_price_sma(ask_price, sma)
-        trade = ts.trade_option(p_sma)
-        owned_qty = float(rh.robinhood.crypto.get_crypto_positions(info='quantity_available')[1])
-        balance = get_cash()[0]
-        print('Price:', ask_price)
-        print('sma: ', sma)
-        print('p_sma: ', p_sma)
-        print('CHOICE: ', trade)
-        print('Balance: ', balance)
-        print('Have Bought? ', have_bought)
-        print('Owned: ', owned_qty)
-        
-        if trade == 'BUY' and have_bought == False:
-            print("BOUGHT AT: ", ask_price)
-            rh.robinhood.orders.order_buy_crypto_limit_by_price('ETH', balance - 200, ask_price + 1, timeInForce='gtc', jsonify=True)
-            bought_price = ask_price
-            have_bought = True
-            # playsound('./ring01.wav')
-            win32api.MessageBox(0, 'JUST BOUGHT', 'BUY BUY BUY', 0x00001000)
-        elif trade == 'SELL' and have_bought == True:
-            print(have_bought)
-            print('SOLD AT: ', ask_price)
-            sold_price = ask_price
-            profit = sold_price - bought_price
-            rh.robinhood.orders.order_sell_crypto_by_quantity('ETH', owned_qty, timeInForce='gtc', jsonify=True)
-            # playsound('./ring01.wav')
-            print('PROFIT: ', profit * owned_qty)
-            have_bought = False
-            win32api.MessageBox(0, 'JUST SOLD', 'SELL SELL', 0x00001000)
+            sma = ts.get_sma('ETH', data, window=12)
+            p_sma = ts.get_price_sma(ask_price, sma)
+            trade = ts.trade_option(p_sma)
+            owned_qty = float(rh.robinhood.crypto.get_crypto_positions(info='quantity_available')[1])
+            balance = get_cash()[0]
+            print('Price:', ask_price)
+            print('sma: ', sma)
+            print('p_sma: ', p_sma)
+            print('CHOICE: ', trade)
+            print('Balance: ', balance)
+            print('Have Bought? ', have_bought)
+            print('Owned: ', owned_qty)
+            
+            if trade == 'BUY' and have_bought == False:
+                print("BOUGHT AT: ", ask_price)
+                rh.robinhood.orders.order_buy_crypto_limit_by_price('ETH', balance - 200, ask_price + 1, timeInForce='gtc', jsonify=True)
+                bought_price = ask_price
+                have_bought = True
+                # playsound('./ring01.wav')
+                win32api.MessageBox(0, 'JUST BOUGHT', 'BUY BUY BUY', 0x00001000)
+            elif trade == 'SELL' and have_bought == True:
+                print(have_bought)
+                print('SOLD AT: ', ask_price)
+                sold_price = ask_price
+                profit = sold_price - bought_price
+                rh.robinhood.orders.order_sell_crypto_by_quantity('ETH', owned_qty, timeInForce='gtc', jsonify=True)
+                # playsound('./ring01.wav')
+                print('PROFIT: ', profit * owned_qty)
+                have_bought = False
+                win32api.MessageBox(0, 'JUST SOLD', 'SELL SELL', 0x00001000)
 
-        time.sleep(3)
+            time.sleep(3)
+        except TypeError as e:
+            print('***ENCOUNTERED AN ERROR, RETRYING IN 10 SECONDS***')
+            time.sleep(10)
 
     logout()
