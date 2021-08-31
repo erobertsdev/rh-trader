@@ -64,12 +64,12 @@ if __name__ == "__main__":
 
         prices = rh.robinhood.crypto.get_crypto_quote('ETH')
         data = ts.get_historical_prices()
-        ask_price = prices['ask_price']
+        ask_price = float(prices['ask_price'])
 
         sma = ts.get_sma('ETH', data, window=12)
-        p_sma = ts.get_price_sma(float(ask_price), sma)
+        p_sma = ts.get_price_sma(ask_price, sma)
         trade = ts.trade_option(p_sma)
-        print('Price:', float(ask_price))
+        print('Price:', ask_price)
         print('sma: ', sma)
         print('p_sma: ', p_sma)
         print('CHOICE: ', trade)
@@ -77,15 +77,15 @@ if __name__ == "__main__":
         print('Have Bought? ', have_bought)
         
         if trade == 'BUY' and have_bought == False:
-            print("BOUGHT AT: ", float(ask_price))
+            print("BOUGHT AT: ", ask_price)
             rh.robinhood.orders.order_buy_crypto_limit_by_price('ETH', 10000, ask_price, timeInForce='gtc', jsonify=True)
-            bought_price = float(ask_price)
+            bought_price = ask_price
             have_bought = True
             win32api.MessageBox(0, 'JUST BOUGHT', 'BUY BUY BUY', 0x00001000)
         elif trade == 'SELL' and have_bought == True:
             print(have_bought)
-            print('SOLD AT: ', float(ask_price))
-            sold_price = float(ask_price)
+            print('SOLD AT: ', ask_price)
+            sold_price = ask_price
             profit = sold_price - bought_price
             win32api.MessageBox(0, 'SELL SELL SELL', 'SELL SELL', 0x00001000)
             print('PROFIT: ', profit * 3)
