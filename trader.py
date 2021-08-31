@@ -92,10 +92,10 @@ if __name__ == "__main__":
             print('SOLD AT: ', ask_price)
             sold_price = ask_price
             profit = sold_price - bought_price
-            rh.robinhood.orders.order_sell_crypto_limit_by_price('ETH', owned_qty, ask_price, timeInForce='gtc', jsonify=True)
+            rh.robinhood.orders.order_sell_crypto_by_quantity('ETH', owned_qty, timeInForce='gtc', jsonify=True)
             # playsound('./ring01.wav')
             win32api.MessageBox(0, 'SELL SELL SELL', 'SELL SELL', 0x00001000)
-            print('PROFIT: ', profit * 3)
+            print('PROFIT: ', profit * owned_qty)
             have_bought = False
 
         time.sleep(60)
