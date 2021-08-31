@@ -73,15 +73,17 @@ if __name__ == "__main__":
         print('sma: ', sma)
         print('p_sma: ', p_sma)
         print('CHOICE: ', trade)
-        print('Balance: ', get_cash()[0])
+        # print('Balance: ', get_cash()[0])
+        print('Have Bought? ', have_bought)
         
         if trade == 'BUY' and have_bought == False:
             print("BOUGHT AT: ", float(ask_price))
-            robin_stocks.robinhood.orders.order_buy_crypto_limit_by_price('ETH', 10000, ask_price, timeInForce='gtc', jsonify=True)
+            rh.robinhood.orders.order_buy_crypto_limit_by_price('ETH', 10000, ask_price, timeInForce='gtc', jsonify=True)
             bought_price = float(ask_price)
             have_bought = True
-            win32api.MessageBox(0, 'BUY MOTHER FUCKER', 'BUY BUY BUY', 0x00001000)
+            win32api.MessageBox(0, 'JUST BOUGHT', 'BUY BUY BUY', 0x00001000)
         elif trade == 'SELL' and have_bought == True:
+            print(have_bought)
             print('SOLD AT: ', float(ask_price))
             sold_price = float(ask_price)
             profit = sold_price - bought_price
