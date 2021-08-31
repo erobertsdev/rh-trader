@@ -77,6 +77,7 @@ if __name__ == "__main__":
         
         if trade == 'BUY' and have_bought == False:
             print("BOUGHT AT: ", float(ask_price))
+            robin_stocks.robinhood.orders.order_buy_crypto_limit_by_price('ETH', 10000, ask_price, timeInForce='gtc', jsonify=True)
             bought_price = float(ask_price)
             have_bought = True
             win32api.MessageBox(0, 'BUY MOTHER FUCKER', 'BUY BUY BUY', 0x00001000)
@@ -88,6 +89,6 @@ if __name__ == "__main__":
             print('PROFIT: ', profit * 3)
             have_bought = False
 
-        time.sleep(60)
+        time.sleep(15)
 
     logout()
