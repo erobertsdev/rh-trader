@@ -82,7 +82,7 @@ if __name__ == "__main__":
         
         if trade == 'BUY' and have_bought == False:
             print("BOUGHT AT: ", ask_price)
-            rh.robinhood.orders.order_buy_crypto_limit_by_price('ETH', balance - 200, ask_price, timeInForce='gtc', jsonify=True)
+            rh.robinhood.orders.order_buy_crypto_limit_by_price('ETH', balance - 200, ask_price + 1, timeInForce='gtc', jsonify=True)
             bought_price = ask_price
             have_bought = True
             # playsound('./ring01.wav')
@@ -94,7 +94,7 @@ if __name__ == "__main__":
             profit = sold_price - bought_price
             rh.robinhood.orders.order_sell_crypto_by_quantity('ETH', owned_qty, timeInForce='gtc', jsonify=True)
             # playsound('./ring01.wav')
-            win32api.MessageBox(0, 'SELL SELL SELL', 'SELL SELL', 0x00001000)
+            win32api.MessageBox(0, 'JUST SOLD', 'SELL SELL', 0x00001000)
             print('PROFIT: ', profit * owned_qty)
             have_bought = False
 
