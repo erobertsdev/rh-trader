@@ -1,6 +1,6 @@
 import config
 import trade_strat
-from playsound import playsound
+import win32api
 
 import robin_stocks as rh
 import datetime as dt
@@ -79,10 +79,12 @@ if __name__ == "__main__":
             print("BOUGHT AT: ", float(ask_price))
             bought_price = float(ask_price)
             have_bought = True
+            win32api.MessageBox(0, 'BUY MOTHER FUCKER', 'BUY BUY BUY', 0x00001000)
         elif trade == 'SELL' and have_bought == True:
             print('SOLD AT: ', float(ask_price))
             sold_price = float(ask_price)
             profit = sold_price - bought_price
+            win32api.MessageBox(0, 'SELL SELL SELL', 'SELL SELL', 0x00001000)
             print('PROFIT: ', profit * 3)
             have_bought = False
 
