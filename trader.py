@@ -51,6 +51,17 @@ def get_cash():
     equity = float(rh_cash['equity'])
     return(cash, equity)
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 
 have_bought = False
 
@@ -73,7 +84,7 @@ if __name__ == "__main__":
             trade = ts.trade_option(p_sma)
             owned_qty = float(rh.robinhood.crypto.get_crypto_positions(info='quantity_available')[1])
             balance = get_cash()[0]
-            print(f'Price: {ask_price} | sma: {sma} | p_sma: {p_sma} | {trade} | Owned: {owned_qty}')
+            print(f'Price: {ask_price} | sma: {sma} | p_sma: {p_sma} | {bcolors.WARNING}{trade}{bcolors.ENDC} | Owned: {owned_qty}')
             # print('sma: ', sma)
             # print('p_sma: ', p_sma)
             # print('CHOICE: ', trade)
@@ -82,7 +93,7 @@ if __name__ == "__main__":
             # print('Owned: ', owned_qty)
             
             if trade == 'BUY' and have_bought == False:
-                print("BOUGHT AT: ", ask_price)
+                print(f"{bcolors.OKGREEN}BOUGHT AT: {ask_price}{bcolors.ENDC}")
                 rh.robinhood.orders.order_buy_crypto_limit_by_price('ETH', balance - 200, ask_price + 1, timeInForce='gtc', jsonify=True)
                 bought_price = ask_price
                 have_bought = True
@@ -90,7 +101,7 @@ if __name__ == "__main__":
                 # win32api.MessageBox(0, 'JUST BOUGHT', 'BUY BUY BUY', 0x00001000)
             elif trade == 'SELL' and have_bought == True:
                 print(have_bought)
-                print('SOLD AT: ', ask_price)
+                print(f'{bcolors.OKGREEN}SOLD AT: {ask_price}{bcolors.ENDC}')
                 sold_price = ask_price
                 profit = sold_price - bought_price
                 rh.robinhood.orders.order_sell_crypto_by_quantity('ETH', owned_qty, timeInForce='gtc', jsonify=True)
