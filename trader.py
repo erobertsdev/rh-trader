@@ -73,13 +73,13 @@ if __name__ == "__main__":
             trade = ts.trade_option(p_sma)
             owned_qty = float(rh.robinhood.crypto.get_crypto_positions(info='quantity_available')[1])
             balance = get_cash()[0]
-            print('Price:', ask_price)
-            print('sma: ', sma)
-            print('p_sma: ', p_sma)
-            print('CHOICE: ', trade)
-            print('Balance: ', balance)
-            print('Have Bought? ', have_bought)
-            print('Owned: ', owned_qty)
+            print(f'Price: {ask_price} | sma: {sma} | p_sma: {p_sma} | {trade} | Owned: {owned_qty}')
+            # print('sma: ', sma)
+            # print('p_sma: ', p_sma)
+            # print('CHOICE: ', trade)
+            # print('Balance: ', balance)
+            # print('Have Bought? ', have_bought)
+            # print('Owned: ', owned_qty)
             
             if trade == 'BUY' and have_bought == False:
                 print("BOUGHT AT: ", ask_price)
@@ -87,7 +87,7 @@ if __name__ == "__main__":
                 bought_price = ask_price
                 have_bought = True
                 # playsound('./ring01.wav')
-                win32api.MessageBox(0, 'JUST BOUGHT', 'BUY BUY BUY', 0x00001000)
+                # win32api.MessageBox(0, 'JUST BOUGHT', 'BUY BUY BUY', 0x00001000)
             elif trade == 'SELL' and have_bought == True:
                 print(have_bought)
                 print('SOLD AT: ', ask_price)
@@ -97,9 +97,13 @@ if __name__ == "__main__":
                 # playsound('./ring01.wav')
                 print('PROFIT: ', profit * owned_qty)
                 have_bought = False
-                win32api.MessageBox(0, 'JUST SOLD', 'SELL SELL', 0x00001000)
+                # win32api.MessageBox(0, 'JUST SOLD', 'SELL SELL', 0x00001000)
 
-            time.sleep(3)
+            if have_bought == False:
+                time.sleep(3)
+            elif have_bought == True:
+                time.sleep(3)
+                
         except TypeError as e:
             print('***ENCOUNTERED AN ERROR, RETRYING IN 10 SECONDS***')
             time.sleep(10)
