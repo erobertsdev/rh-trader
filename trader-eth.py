@@ -1,5 +1,5 @@
 import config
-import trade_strat
+import trade_strat_eth
 import win32api
 # from playsound import playsound
 
@@ -64,14 +64,14 @@ class bcolors:
 
 
 have_bought = False
-ticker = 'BTC'
+ticker = 'ETH'
 
 if __name__ == "__main__":
     login(days=1)
 
     stocks = rh.robinhood.crypto.get_crypto_info(ticker)
 
-    ts = trade_strat.trader(stocks)
+    ts = trade_strat_eth.trader(stocks)
 
     while open_market():
 

@@ -9,11 +9,11 @@ class trader():
     def __init__(self, stocks):
         self.stocks = stocks
 
-        self.sma_hour = {'BTCUSD': 0 for i in range(0, len(stocks))}
+        self.sma_hour = {'ETHUSD': 0 for i in range(0, len(stocks))}
         self.run_time = 0
         # self.buffeer = 0.005 #0.5%
 
-        self.price_sma_hour = {'BTCUSD': 0 for i in range(0, len(stocks))}
+        self.price_sma_hour = {'ETHUSD': 0 for i in range(0, len(stocks))}
 
         # print('price_sma_hour:', self.price_sma_hour)
 
@@ -30,7 +30,7 @@ class trader():
 
         # symbol, interval, span, bounds, info
         historical_data = rh.robinhood.crypto.get_crypto_historicals(
-            'BTC', span='day', interval='5minute')
+            'ETH', span='day', interval='5minute')
 
         df = pd.DataFrame(historical_data)
 
@@ -38,7 +38,7 @@ class trader():
         close_prices = df.loc[:, 'close_price'].astype('float')
 
         df_price = pd.concat([close_prices, dates_times], axis=1)
-        df_price = df_price.rename(columns={'close_price': 'BTC'})
+        df_price = df_price.rename(columns={'close_price': 'ETH'})
         df_price = df_price.set_index('begins_at')
 
         return(df_price)

@@ -1,5 +1,5 @@
 import config
-import trade_strat
+import trade_strat_btc
 import win32api
 # from playsound import playsound
 
@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
     stocks = rh.robinhood.crypto.get_crypto_info(ticker)
 
-    ts = trade_strat.trader(stocks)
+    ts = trade_strat_btc.trader(stocks)
 
     while open_market():
 
