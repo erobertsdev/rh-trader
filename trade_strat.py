@@ -55,7 +55,7 @@ class trader():
 
     def trade_option(self, p_sma):
 
-        i1 = "BUY" if p_sma <= 0.9965 else "SELL" if p_sma >= 1.0045 else "NONE"
+        i1 = "BUY" if p_sma <= 0.9965 else "SELL" if p_sma >= 1.0049 else "NONE"
         if i1 == "BUY":
             trade = "BUY"
         elif i1 == "SELL":
